@@ -1,0 +1,32 @@
+version: "3.2"
+
+networks:
+  eth:
+
+volumes:
+  data-volume:
+
+services:
+
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # labels:
+      #   version: "10.13.2018"
+      #   com.chimpwizard.is-beta: "yes" 
+      #   com.chimpwizard.is-production: "no" 
+    image: chimpwizard/eth:latest
+
+
+  console:
+      image: portainer/portainer
+      volumes:
+          - "/var/run/docker.sock:/var/run/docker.sock"
+      ports:
+          - '9000:9000'
+      networks:
+          - eth
+      command: "-H tcp://172.10.10.20:4243 --admin-password '$$2y$$05$$/SVcW3.dRcqFP61JCNgj9.L0BnTre7OnOL3E3dSHIUX0uKLp5aR/e'"
+
+
